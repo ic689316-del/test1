@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김도윤 — Frontend Developer & Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-coord">x000 / y000</div>
+
+<header>
+  <nav>
+    <div class="logo">DY<span>.</span>KIM</div>
+    <div class="navlinks">
+      <a href="#about">ABOUT</a>
+      <a href="#work">WORK</a>
+      <a href="#contact">CONTACT</a>
+    </div>
+  </nav>
+</header>
+
+<main class="canvas">
+
+  <!-- HERO -->
+  <section class="artboard hero" id="hero">
+    <span class="frame-label">FRAME 01 — HERO</span>
+    <span class="frame-dim">1440 × 900</span>
+    <div class="corner-bl"></div><div class="corner-br"></div>
+
+    <div class="eyebrow">AVAILABLE FOR WORK · 2026</div>
+    <div class="name-block">
+      <img src="img/원본증명사진.png" alt="김도윤" class="profile-photo">
+      <h1 class="name">김아이</h1>
+    </div>
+    <p class="role">인터페이스를 코드로 옮기는 일을 합니다. 디자인과 개발 사이, 그 경계가 흐려지는 지점에서 작업해요.</p>
+
+    <div class="hero-meta">
+      <div><strong>역할</strong>Frontend Developer & Visual Designer</div>
+      <div><strong>경력</strong>5년차</div>
+      <div><strong>위치</strong>Seoul, KR (Remote 가능)</div>
+      <div><strong>현재 상태</strong>새 프로젝트 가능</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="artboard" id="about">
+    <span class="frame-label">FRAME 02 — ABOUT</span>
+    <span class="frame-dim">LAYERS: 6</span>
+    <div class="corner-bl"></div><div class="corner-br"></div>
+
+    <h2 class="section-title">소개</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>화면 위의 1px도 그냥 넘기지 못하는 성격 때문에 디자인과 개발을 같이 하게 됐습니다. 처음엔 디자이너로 시작했지만, 만든 디자인이 그대로 구현되지 않는 게 늘 아쉬워서 직접 코드를 짜기 시작했어요.</p>
+        <p>지금은 React와 TypeScript를 주로 쓰고, 인터랙션과 모션에 특히 관심이 많습니다. 작은 디테일이 사용자 경험 전체를 바꾼다고 믿어요.</p>
+        <p>최근엔 디자인 시스템을 구축하고, 그 위에서 빠르게 실험할 수 있는 도구를 만드는 데 시간을 쏟고 있습니다.</p>
+      </div>
+      <div class="layers-panel">
+        <div class="layers-head"><span>LAYERS</span><span>USAGE</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">React / Next.js</span><span class="layer-pct">95%</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">TypeScript</span><span class="layer-pct">90%</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">Figma</span><span class="layer-pct">85%</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">CSS / Motion</span><span class="layer-pct">88%</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">Three.js / WebGL</span><span class="layer-pct">60%</span></div>
+        <div class="layer-row"><span class="layer-dot"></span><span class="layer-name">Node.js</span><span class="layer-pct">55%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="artboard" id="work">
+    <span class="frame-label">FRAME 03 — WORK</span>
+    <span class="frame-dim">PROJECTS: 3</span>
+    <div class="corner-bl"></div><div class="corner-br"></div>
+
+    <h2 class="section-title" style="margin-bottom:48px;">작업</h2>
+
+    <div class="work-list">
+
+      <!-- Project 1 -->
+      <article class="project">
+        <div class="project-thumb">
+          <span class="preview-tag">PREVIEW</span>
+          <svg viewBox="0 0 400 300" preserveAspectRatio="none">
+            <rect width="400" height="300" fill="#E7ECFF"/>
+            <rect x="24" y="24" width="120" height="14" fill="#2B59FF" opacity="0.5"/>
+            <rect x="24" y="54" width="352" height="80" fill="#fff" stroke="#2B59FF" stroke-width="1"/>
+            <rect x="24" y="148" width="170" height="128" fill="#fff" stroke="#2B59FF" stroke-width="1"/>
+            <rect x="206" y="148" width="170" height="60" fill="#fff" stroke="#2B59FF" stroke-width="1"/>
+            <rect x="206" y="216" width="170" height="60" fill="#2B59FF" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="project-info">
+          <div class="eyebrow">01 · 2025</div>
+          <h3 class="project-title">Nightshift</h3>
+          <p class="project-desc">심야 라디오를 듣는 느낌의 음악 스트리밍 앱 리디자인. 어두운 환경에서도 눈이 편안한 인터페이스와, 곡이 바뀔 때마다 배경이 부드럽게 전환되는 모션에 집중했습니다.</p>
+          <div class="tag-row">
+            <span class="tag">React</span><span class="tag">Framer Motion</span><span class="tag">Figma</span>
+          </div>
+          <a href="#" class="project-link">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="project">
+        <div class="project-thumb">
+          <span class="preview-tag">PREVIEW</span>
+          <svg viewBox="0 0 400 300" preserveAspectRatio="none">
+            <rect width="400" height="300" fill="#FFF1ED"/>
+            <rect x="24" y="24" width="352" height="40" fill="#fff" stroke="#FF4D2E" stroke-width="1"/>
+            <polyline points="40,220 90,160 140,190 190,120 240,150 290,90 340,130" fill="none" stroke="#FF4D2E" stroke-width="2"/>
+            <rect x="24" y="240" width="80" height="36" fill="#FF4D2E" opacity="0.3"/>
+            <rect x="116" y="240" width="80" height="36" fill="#FF4D2E" opacity="0.5"/>
+            <rect x="208" y="240" width="80" height="36" fill="#FF4D2E" opacity="0.2"/>
+          </svg>
+        </div>
+        <div class="project-info">
+          <div class="eyebrow">02 · 2024</div>
+          <h3 class="project-title">Atlas</h3>
+          <p class="project-desc">팀 단위로 사용하는 데이터 시각화 대시보드. 수십 개의 지표를 한눈에 비교할 수 있도록, 차트보다 숫자가 먼저 읽히는 레이아웃을 설계했습니다.</p>
+          <div class="tag-row">
+            <span class="tag">TypeScript</span><span class="tag">D3.js</span><span class="tag">Next.js</span>
+          </div>
+          <a href="#" class="project-link">자세히 보기 →</a>
+        </div>
+      </article>
+
+      <!-- Project 3 -->
+      <article class="project">
+        <div class="project-thumb">
+          <span class="preview-tag">PREVIEW</span>
+          <svg viewBox="0 0 400 300" preserveAspectRatio="none">
+            <rect width="400" height="300" fill="#F2F1ED"/>
+            <circle cx="120" cy="140" r="60" fill="none" stroke="#14151A" stroke-width="1"/>
+            <circle cx="120" cy="140" r="4" fill="#14151A"/>
+            <line x1="120" y1="140" x2="240" y2="90" stroke="#14151A" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="120" y1="140" x2="260" y2="190" stroke="#14151A" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="240" cy="90" r="4" fill="#14151A"/>
+            <circle cx="260" cy="190" r="4" fill="#14151A"/>
+            <rect x="24" y="240" width="352" height="1" fill="#BFBFB6"/>
+          </svg>
+        </div>
+        <div class="project-info">
+          <div class="eyebrow">03 · 2024</div>
+          <h3 class="project-title">Wayfinder</h3>
+          <p class="project-desc">친구들과 함께 짜는 여행 일정 플래너. 지도 위에서 일정을 드래그하면 동선이 자동으로 다시 계산되는 기능을 만들었습니다.</p>
+          <div class="tag-row">
+            <span class="tag">Next.js</span><span class="tag">Mapbox</span><span class="tag">Figma</span>
+          </div>
+          <a href="#" class="project-link">자세히 보기 →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="artboard" id="contact">
+    <span class="frame-label">FRAME 04 — CONTACT</span>
+    <span class="frame-dim">EXPORT READY</span>
+    <div class="corner-bl"></div><div class="corner-br"></div>
+
+    <div class="contact-inner">
+      <div class="eyebrow">함께 만들어볼까요</div>
+      <h2 class="contact-headline">새로운 프로젝트나 협업 제안이 있다면, 편하게 메일 주세요.</h2>
+      <a href="mailto:hello@doyoonkim.dev" class="export-btn">
+        EXPORT → EMAIL
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <div class="social-row">
+        <a href="#" target="_blank" rel="noopener">GITHUB</a>
+        <a href="#" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="#" target="_blank" rel="noopener">TWITTER / X</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© 2026 KIM DOYOON</span>
+  <span>SEOUL, KR — GMT+9</span>
+</footer>
+
+<script>
+  // Custom cursor with live coordinate readout
+  const dot = document.getElementById('cursor-dot');
+  const coord = document.getElementById('cursor-coord');
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+
+  if (!isCoarse) {
+    window.addEventListener('mousemove', (e) => {
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+      coord.style.transform = `translate(${e.clientX + 14}px, ${e.clientY + 14}px)`;
+      const x = String(e.clientX).padStart(3, '0');
+      const y = String(e.clientY).padStart(3, '0');
+      coord.textContent = `x${x} / y${y}`;
+    });
+
+    document.querySelectorAll('a, button, .project, .layer-row').forEach(el => {
+      el.addEventListener('mouseenter', () => dot.classList.add('hot'));
+      el.addEventListener('mouseleave', () => dot.classList.remove('hot'));
+    });
+  }
+
+  // Scroll reveal for artboards
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const boards = document.querySelectorAll('.artboard');
+
+  if (prefersReducedMotion) {
+    boards.forEach(b => b.classList.add('in-view'));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    boards.forEach(b => observer.observe(b));
+  }
+</script>
+
+</body>
+</html>
