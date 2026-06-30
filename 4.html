@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>겜터 — 한국 게임 커뮤니티</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E1116;
+    --surface: #171B22;
+    --surface-2: #1F2530;
+    --line: #2A313D;
+    --text: #ECEFF4;
+    --text-muted: #7A8699;
+    --crimson: #E0344C;
+    --gold: #F0B429;
+    --green: #3DDC84;
+    --blue: #4C8DFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Noto Sans KR', sans-serif;
+    min-height:100vh;
+  }
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:20;
+  }
+  .logo{
+    font-family:'Black Han Sans', sans-serif;
+    font-size:24px;
+    letter-spacing:1px;
+    color:var(--text);
+  }
+  .logo span{color:var(--crimson);}
+  .live-stat{
+    display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px; color:var(--text-muted);
+  }
+  .live-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 0 rgba(61,220,132,.6);
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(61,220,132,.5);}
+    70%{box-shadow:0 0 0 7px rgba(61,220,132,0);}
+    100%{box-shadow:0 0 0 0 rgba(61,220,132,0);}
+  }
+  .write-btn{
+    background:var(--crimson); color:#fff; border:none;
+    font-family:'Noto Sans KR', sans-serif; font-weight:700;
+    font-size:14px; padding:9px 18px; border-radius:6px;
+    cursor:pointer;
+  }
+  .write-btn:hover{background:#c92a40;}
+
+  /* ===== Layout ===== */
+  .layout{
+    display:grid;
+    grid-template-columns:200px 1fr 300px;
+    gap:0;
+    max-width:1240px;
+    margin:0 auto;
+    min-height:calc(100vh - 57px);
+  }
+  @media(max-width:980px){
+    .layout{grid-template-columns:160px 1fr; max-width:100%;}
+    .chatpanel{display:none;}
+  }
+  @media(max-width:640px){
+    .layout{grid-template-columns:130px 1fr;}
+    .sidebar{padding:14px 8px;}
+    .sidebar h3{padding:0 6px 8px;}
+    .game-item{padding:8px 6px; font-size:13px;}
+  }
+
+  /* ===== Sidebar: game tabs ===== */
+  .sidebar{
+    border-right:1px solid var(--line);
+    padding:20px 12px;
+  }
+  .sidebar h3{
+    font-size:11px; color:var(--text-muted); letter-spacing:1px;
+    padding:0 10px 10px; text-transform:uppercase;
+  }
+  .game-item{
+    display:flex; align-items:center; gap:10px;
+    padding:10px; border-radius:6px;
+    cursor:pointer; margin-bottom:2px;
+    font-size:14px; color:var(--text-muted);
+  }
+  .game-item:hover{background:var(--surface);}
+  .game-item.active{background:var(--surface-2); color:var(--text); font-weight:700;}
+  .game-badge{
+    width:8px; height:8px; border-radius:2px; flex-shrink:0;
+  }
+
+  /* ===== Board ===== */
+  .board{ padding:20px 24px; border-right:1px solid var(--line); }
+  .board-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .board-head h2{
+    font-family:'Black Han Sans', sans-serif;
+    font-size:20px; letter-spacing:.5px;
+  }
+  .board-head .count{font-size:12px; color:var(--text-muted); font-family:'JetBrains Mono',monospace;}
+
+  .post{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:border-color .15s;
+  }
+  .post:hover{border-color:var(--crimson);}
+  .post-top{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .tier{
+    font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .tier.gold{background:rgba(240,180,41,.15); color:var(--gold);}
+  .tier.silver{background:rgba(180,190,205,.15); color:#C3CBD6;}
+  .tier.bronze{background:rgba(190,110,60,.15); color:#D08A4E;}
+  .nick{font-size:13px; color:var(--text-muted);}
+  .post-title{font-size:15px; font-weight:700; margin-bottom:4px;}
+  .post-preview{font-size:13px; color:var(--text-muted); line-height:1.5;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .post-meta{
+    display:flex; gap:14px; margin-top:8px;
+    font-size:12px; color:var(--text-muted);
+    font-family:'JetBrains Mono', monospace;
+  }
+  .post-meta .game-tag{color:var(--blue);}
+
+  /* ===== Chat panel ===== */
+  .chatpanel{
+    display:flex; flex-direction:column;
+    background:var(--surface);
+    height:calc(100vh - 57px);
+    position:sticky; top:57px;
+  }
+  .chat-head{
+    padding:14px 16px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .chat-head h3{font-size:14px; font-weight:700;}
+  .chat-head .online{font-size:11px; color:var(--green); font-family:'JetBrains Mono',monospace;}
+  .chat-messages{
+    flex:1; overflow-y:auto; padding:12px 16px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .chat-msg{font-size:13px; line-height:1.5;}
+  .chat-msg .cnick{font-weight:700; margin-right:4px;}
+  .chat-msg .ctext{color:#D6DAE2;}
+  .chat-input-row{
+    display:flex; gap:8px; padding:12px 16px;
+    border-top:1px solid var(--line);
+  }
+  .chat-input-row input{
+    flex:1; background:var(--surface-2); border:1px solid var(--line);
+    border-radius:6px; color:var(--text); padding:9px 12px; font-size:13px;
+    font-family:'Noto Sans KR', sans-serif;
+  }
+  .chat-input-row input:focus{outline:none; border-color:var(--crimson);}
+  .chat-input-row button{
+    background:var(--surface-2); border:1px solid var(--line); color:var(--text);
+    border-radius:6px; padding:0 14px; cursor:pointer; font-size:13px;
+  }
+  .chat-input-row button:hover{border-color:var(--crimson); color:var(--crimson);}
+
+  /* ===== Post detail modal ===== */
+  .overlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.55);
+    align-items:flex-start; justify-content:center; padding:60px 20px;
+    z-index:50; overflow-y:auto;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    max-width:640px; width:100%; padding:28px;
+  }
+  .modal-close{
+    float:right; background:none; border:none; color:var(--text-muted);
+    font-size:20px; cursor:pointer;
+  }
+  .modal h2{font-family:'Black Han Sans', sans-serif; font-size:20px; margin-bottom:10px;}
+  .modal .post-meta{margin-bottom:16px;}
+  .modal-body{font-size:14px; line-height:1.8; color:#D6DAE2; margin-bottom:20px;}
+  .comments-head{font-size:13px; color:var(--text-muted); margin-bottom:10px; border-top:1px solid var(--line); padding-top:16px;}
+  .comment{font-size:13px; margin-bottom:10px; line-height:1.5;}
+  .comment .cnick{font-weight:700; margin-right:6px;}
+
+  /* ===== Write form (simple inline) ===== */
+  .write-overlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.55);
+    align-items:flex-start; justify-content:center; padding:60px 20px; z-index:50;
+  }
+  .write-overlay.show{display:flex;}
+  .write-modal{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    max-width:520px; width:100%; padding:24px;
+  }
+  .write-modal h3{font-family:'Black Han Sans', sans-serif; font-size:18px; margin-bottom:16px;}
+  .write-modal label{font-size:12px; color:var(--text-muted); display:block; margin-bottom:6px;}
+  .write-modal select, .write-modal input, .write-modal textarea{
+    width:100%; background:var(--surface-2); border:1px solid var(--line); border-radius:6px;
+    color:var(--text); padding:9px 12px; font-size:13px; margin-bottom:14px;
+    font-family:'Noto Sans KR', sans-serif;
+  }
+  .write-modal textarea{min-height:100px; resize:vertical;}
+  .write-actions{display:flex; justify-content:flex-end; gap:8px;}
+  .write-actions button{
+    border:1px solid var(--line); background:var(--surface-2); color:var(--text);
+    padding:9px 16px; border-radius:6px; cursor:pointer; font-size:13px;
+  }
+  .write-actions .submit{background:var(--crimson); border-color:var(--crimson); color:#fff; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">겜<span>터</span></div>
+  <div class="live-stat"><span class="live-dot"></span><span id="onlineCount">1,284명 접속중</span></div>
+  <button class="write-btn" onclick="openWrite()">글쓰기</button>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <h3>게임</h3>
+    <div id="gameList"></div>
+  </div>
+
+  <div class="board">
+    <div class="board-head">
+      <h2 id="boardTitle">전체</h2>
+      <span class="count" id="boardCount"></span>
+    </div>
+    <div id="postList"></div>
+  </div>
+
+  <div class="chatpanel">
+    <div class="chat-head">
+      <h3>실시간 채팅</h3>
+      <span class="online" id="chatOnline">● 312명</span>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="메시지를 입력하세요" maxlength="120">
+      <button onclick="sendChat()">전송</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="postOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closePost()">&times;</button>
+    <h2 id="modalTitle"></h2>
+    <div class="post-meta" id="modalMeta"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="comments-head" id="commentsHead"></div>
+    <div id="commentsList"></div>
+  </div>
+</div>
+
+<div class="write-overlay" id="writeOverlay">
+  <div class="write-modal">
+    <h3>새 글 작성</h3>
+    <label>게임</label>
+    <select id="writeGame"></select>
+    <label>제목</label>
+    <input type="text" id="writeTitle" placeholder="제목을 입력하세요">
+    <label>내용</label>
+    <textarea id="writeBody" placeholder="내용을 입력하세요"></textarea>
+    <div class="write-actions">
+      <button onclick="closeWrite()">취소</button>
+      <button class="submit" onclick="submitPost()">등록</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const games = [
+  {id:'all', name:'전체', color:'#7A8699'},
+  {id:'lol', name:'리그 오브 레전드', color:'#4C8DFF'},
+  {id:'maple', name:'메이플스토리', color:'#F0B429'},
+  {id:'lostark', name:'로스트아크', color:'#E0344C'},
+  {id:'overwatch', name:'오버워치 2', color:'#E07F2E'},
+  {id:'sudden', name:'서든어택', color:'#3DDC84'},
+  {id:'eternal', name:'이터널 리턴', color:'#9D7AE0'},
+];
+
+const tiers = [
+  {key:'gold', label:'GOLD'},
+  {key:'silver', label:'SILVER'},
+  {key:'bronze', label:'BRONZE'},
+];
+
+let posts = [
+  {id:1, game:'lol', nick:'미드오공장인', tier:'gold', title:'오늘 골드 듀오 구합니다 (미드/정글)', body:'안녕하세요, 오늘 저녁 8시부터 같이 듀오 돌리실 분 구해요. 포지션은 미드/정글이고 골드~플레티넘대면 환영입니다. 디스코드 있으신 분 우대해요!', time:'5분 전', comments:[{nick:'정글차이',text:'저 골드3인데 같이 해요!'},{nick:'서폿장인',text:'서폿 자리는 없나요ㅠ'}]},
+  {id:2, game:'maple', nick:'리부트유저', tier:'silver', title:'리부트 월드 사냥터 추천 좀 해주세요 (220 아크메이지)', body:'220렙 아크메이지(불독)인데 요즘 경험치 효율 좋은 사냥터를 못 찾겠어요. 혹시 비슷한 직업/레벨대 분들 어디서 사냥하시는지 공유해주실 수 있나요?', time:'12분 전', comments:[{nick:'메붕이','text':'쩌리스 추천드려요'}]},
+  {id:3, game:'lostark', nick:'카제로스레이드', tier:'gold', title:'카제로스 하드 공대원 모집 (1450+)', body:'카제로스 하드 노말 공대 인원 1명 구합니다. 1450 이상이시고 디코 가능하신 분만 부탁드려요. 시간은 매주 화/목 21시입니다.', time:'20분 전', comments:[]},
+  {id:4, game:'overwatch', nick:'힐러그자체', tier:'bronze', title:'경쟁전 같이 하실 힐러 구해요', body:'요즘 솔큐 너무 힘드네요... 같이 듀오 하실 힐러 분 구합니다. 저는 탱커 위주로 합니다.', time:'30분 전', comments:[{nick:'탱주의자',text:'저도 추가해주세요'},{nick:'에임좋은딜러',text:'딜러로 참여 가능할까요?'}]},
+  {id:5, game:'sudden', nick:'옛날유저', tier:'silver', title:'서든 다시 시작한 분들 계신가요 ㅋㅋ', body:'10년만에 다시 깔았는데 다들 너무 잘하시네요... 옛날 생각나서 들어왔습니다 반갑습니다 여러분', time:'40분 전', comments:[]},
+];
+
+let comments_idCounter = 100;
+let activeGame = 'all';
+let activePost = null;
+
+function renderSidebar(){
+  const el = document.getElementById('gameList');
+  el.innerHTML = games.map(g => `
+    <div class="game-item ${g.id===activeGame?'active':''}" onclick="selectGame('${g.id}')">
+      <span class="game-badge" style="background:${g.color}"></span>${g.name}
+    </div>`).join('');
+}
+
+function selectGame(id){
+  activeGame = id;
+  renderSidebar();
+  renderBoard();
+}
+
+function gameInfo(id){ return games.find(g=>g.id===id); }
+function tierLabel(key){ const t = tiers.find(t=>t.key===key); return t ? t.label : ''; }
+
+function renderBoard(){
+  const filtered = activeGame==='all' ? posts : posts.filter(p=>p.game===activeGame);
+  document.getElementById('boardTitle').textContent = gameInfo(activeGame).name;
+  document.getElementById('boardCount').textContent = `게시글 ${filtered.length}개`;
+  const el = document.getElementById('postList');
+  if(filtered.length===0){
+    el.innerHTML = `<div style="color:var(--text-muted); font-size:13px; padding:30px 0; text-align:center;">아직 게시글이 없어요. 첫 글을 남겨보세요.</div>`;
+    return;
+  }
+  el.innerHTML = filtered.map(p => `
+    <div class="post" onclick="openPost(${p.id})">
+      <div class="post-top">
+        <span class="tier ${p.tier}">${tierLabel(p.tier)}</span>
+        <span class="nick">${p.nick}</span>
+      </div>
+      <div class="post-title">${escapeHtml(p.title)}</div>
+      <div class="post-preview">${escapeHtml(p.body)}</div>
+      <div class="post-meta">
+        <span class="game-tag">${gameInfo(p.game).name}</span>
+        <span>${p.time}</span>
+        <span>댓글 ${p.comments.length}</span>
+      </div>
+    </div>`).join('');
+}
+
+function openPost(id){
+  activePost = posts.find(p=>p.id===id);
+  document.getElementById('modalTitle').textContent = activePost.title;
+  document.getElementById('modalMeta').innerHTML = `
+    <span class="tier ${activePost.tier}">${tierLabel(activePost.tier)}</span>
+    <span class="nick" style="margin-left:6px;">${activePost.nick}</span>
+    <span class="game-tag" style="margin-left:10px;">${gameInfo(activePost.game).name}</span>
+    <span style="margin-left:10px;">${activePost.time}</span>`;
+  document.getElementById('modalBody').textContent = activePost.body;
+  renderComments();
+  document.getElementById('postOverlay').classList.add('show');
+}
+
+function renderComments(){
+  document.getElementById('commentsHead').textContent = `댓글 ${activePost.comments.length}개`;
+  document.getElementById('commentsList').innerHTML = activePost.comments.map(c=>`
+    <div class="comment"><span class="cnick">${escapeHtml(c.nick)}</span><span>${escapeHtml(c.text)}</span></div>
+  `).join('') + `
+    <div style="display:flex; gap:8px; margin-top:14px;">
+      <input id="commentInput" type="text" placeholder="댓글을 입력하세요" style="flex:1; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:8px 10px; font-size:13px;">
+      <button onclick="addComment()" style="background:var(--surface-2); border:1px solid var(--line); color:var(--text); border-radius:6px; padding:0 14px; cursor:pointer; font-size:13px;">등록</button>
+    </div>`;
+}
+
+function addComment(){
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if(!text) return;
+  activePost.comments.push({nick:'나', text});
+  renderComments();
+  renderBoard();
+}
+
+function closePost(){
+  document.getElementById('postOverlay').classList.remove('show');
+  activePost = null;
+}
+
+function openWrite(){
+  const sel = document.getElementById('writeGame');
+  sel.innerHTML = games.filter(g=>g.id!=='all').map(g=>`<option value="${g.id}">${g.name}</option>`).join('');
+  document.getElementById('writeTitle').value='';
+  document.getElementById('writeBody').value='';
+  document.getElementById('writeOverlay').classList.add('show');
+}
+function closeWrite(){ document.getElementById('writeOverlay').classList.remove('show'); }
+
+function submitPost(){
+  const game = document.getElementById('writeGame').value;
+  const title = document.getElementById('writeTitle').value.trim();
+  const body = document.getElementById('writeBody').value.trim();
+  if(!title || !body){ alert('제목과 내용을 모두 입력해주세요.'); return; }
+  posts.unshift({
+    id: Date.now(), game, nick:'나', tier:'silver',
+    title, body, time:'방금 전', comments:[]
+  });
+  closeWrite();
+  activeGame = game;
+  renderSidebar();
+  renderBoard();
+}
+
+/* ===== Chat ===== */
+let chatMessages = [
+  {nick:'롤황제', text:'오늘 패치노트 보신분?'},
+  {nick:'메붕탈출', text:'리부트 경험치 또 너프됐던데 ㅠㅠ'},
+  {nick:'겜잘알', text:'로아 신규 레이드 난이도 미쳤더라'},
+  {nick:'옵치초보', text:'경쟁전 골드 탈출 가능할까요...'},
+];
+
+function renderChat(){
+  const el = document.getElementById('chatMessages');
+  el.innerHTML = chatMessages.map(m=>`
+    <div class="chat-msg"><span class="cnick" style="color:${nickColor(m.nick)}">${escapeHtml(m.nick)}</span><span class="ctext">${escapeHtml(m.text)}</span></div>
+  `).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function nickColor(nick){
+  const palette = ['#4C8DFF','#F0B429','#E0344C','#3DDC84','#9D7AE0','#E07F2E'];
+  let h = 0;
+  for(let i=0;i<nick.length;i++) h = nick.charCodeAt(i) + ((h<<5)-h);
+  return palette[Math.abs(h)%palette.length];
+}
+
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  chatMessages.push({nick:'나', text});
+  input.value='';
+  renderChat();
+}
+document.getElementById('chatInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') sendChat();
+});
+
+/* fake live activity */
+const sampleLines = [
+  '다들 오늘 던전 같이 가실분?', '경쟁전 5연패중...', '신규 캐릭터 너무 사기인데요',
+  '이번 주말에 대회 보신분?', '서버 점검 언제 끝나나요', '아이템 거래 가능하신분 dm주세요'
+];
+setInterval(()=>{
+  const nicks = ['익명게이머','새벽3시랭커','쪼렙','만렙달성','겜식가족'];
+  const nick = nicks[Math.floor(Math.random()*nicks.length)];
+  const text = sampleLines[Math.floor(Math.random()*sampleLines.length)];
+  chatMessages.push({nick, text});
+  if(chatMessages.length>40) chatMessages.shift();
+  renderChat();
+}, 7000);
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+renderSidebar();
+renderBoard();
+renderChat();
+</script>
+</body>
+</html>
